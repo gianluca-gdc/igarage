@@ -6,4 +6,6 @@ interface VehicleRepository {
     suspend fun getVehicles():List<Vehicle>
     suspend fun getVehicleById(id: String): Vehicle?
     suspend fun addVehicleByVin(vin: String)
+
+    suspend fun getMarketValueForVehicle(vehicle:Vehicle):Vehicle?
 }

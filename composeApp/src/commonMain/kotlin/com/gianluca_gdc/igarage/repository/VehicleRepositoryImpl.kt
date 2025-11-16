@@ -2,6 +2,7 @@ package com.gianluca_gdc.igarage.repository
 
 import com.gianluca_gdc.igarage.model.Vehicle
 import com.gianluca_gdc.igarage.remote.VehicleDatabasesRemoteDataSource
+import com.gianluca_gdc.igarage.remote.toAverageMarketValue
 import com.gianluca_gdc.igarage.remote.toVehicle
 
 class VehicleRepositoryImpl(private val remote: VehicleDatabasesRemoteDataSource
@@ -17,4 +18,15 @@ class VehicleRepositoryImpl(private val remote: VehicleDatabasesRemoteDataSource
         val dto = remote.decodeVin(vin)
         vehicles.add(dto.toVehicle(vin))
     }
+
+    override suspend fun getMarketValueForVehicle(vehicle:Vehicle): Vehicle {
+        val dto = remote.getMarketValue(
+            vin = vehicle.vin,
+            currentMileage = vehicle.mileage
+        )
+        val newVehicle = dto.toAverageMarketValue(vehicle)
+        vehicles.set(vehicles.indexOf(vehicle),newVehicle)
+        return newVehicle
+    }
+
 }

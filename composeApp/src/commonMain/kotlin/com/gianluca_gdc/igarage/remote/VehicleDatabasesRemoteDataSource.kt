@@ -9,11 +9,6 @@ interface VehicleDatabasesRemoteDataSource {
 
     suspend fun getMarketValue(
         vin: String,
-        year: Int,
-        make: String,
-        model: String,
-        trim: String?,
-        stateCode: String,
         currentMileage: Int?
     ): VehicleDbMarketValueDto
 

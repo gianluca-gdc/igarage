@@ -6,6 +6,18 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
-expect class HttpClientFactory {
-    fun create(): HttpClient
+class HttpClientFactory {
+    fun create(): HttpClient {
+        return HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        prettyPrint = true
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                    }
+                )
+            }
+        }
+    }
 }

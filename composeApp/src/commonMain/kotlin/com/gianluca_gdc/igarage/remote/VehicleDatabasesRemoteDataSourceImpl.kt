@@ -31,15 +31,10 @@ class VehicleDatabasesRemoteDataSourceImpl(
 
     override suspend fun getMarketValue(
         vin:String,
-        year: Int,
-        make: String,
-        model: String,
-        trim: String?,
-        stateCode: String,
         currentMileage: Int?
     ): VehicleDbMarketValueDto {
         return client.get(
-            "$baseUrl/market-value/v2/$vin?state=$stateCode&mileage=$currentMileage"
+            "$baseUrl/market-value/v2/$vin?mileage=$currentMileage"
         ) {
             header("x-AuthKey", apiKeyProvider())
         }.body()

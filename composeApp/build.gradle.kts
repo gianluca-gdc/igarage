@@ -30,6 +30,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation("io.ktor:ktor-client-okhttp:2.3.5")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -46,6 +47,16 @@ kotlin {
             implementation("io.ktor:ktor-client-content-negotiation:2.3.5")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.5")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("cafe.adriel.voyager:voyager-navigator:1.1.0-beta03")
+            implementation("cafe.adriel.voyager:voyager-screenmodel:1.1.0-beta03")
+            // Tabs navigation
+            implementation("cafe.adriel.voyager:voyager-tab-navigator:1.1.0-beta03")
+            // Bottom-sheet navigation
+            implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:1.1.0-beta03")
+            // Simple transitions helpers
+            implementation("cafe.adriel.voyager:voyager-transitions:1.1.0-beta03")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
