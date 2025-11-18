@@ -15,8 +15,9 @@ class VehicleRepositoryImpl(private val remote: VehicleDatabasesRemoteDataSource
         vehicles.find { it.id == id }
 
     override suspend fun addVehicleByVin(vin: String) {
-        val dto = remote.decodeVin(vin)
-        vehicles.add(dto.toVehicle(vin))
+            val dto = remote.decodeVin(vin)
+            vehicles.add(dto.toVehicle(vin))
+
     }
 
     override suspend fun getMarketValueForVehicle(vehicle:Vehicle): Vehicle {

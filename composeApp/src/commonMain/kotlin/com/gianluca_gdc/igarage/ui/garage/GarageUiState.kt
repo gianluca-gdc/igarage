@@ -1,4 +1,4 @@
-package com.gianluca_gdc.igarage.ui
+package com.gianluca_gdc.igarage.ui.garage
 
 import com.gianluca_gdc.igarage.model.Vehicle
 

@@ -1,4 +1,4 @@
-package com.gianluca_gdc.igarage.ui
+package com.gianluca_gdc.igarage.ui.vehicledetail
 
 import com.gianluca_gdc.igarage.model.HealthStatus
 import com.gianluca_gdc.igarage.model.MaintenanceTask

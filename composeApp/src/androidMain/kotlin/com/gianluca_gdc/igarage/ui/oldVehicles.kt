@@ -33,6 +33,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import com.gianluca_gdc.igarage.model.HealthLevel
 import com.gianluca_gdc.igarage.model.HealthStatus
+import com.gianluca_gdc.igarage.ui.vehicledetail.VehicleDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
