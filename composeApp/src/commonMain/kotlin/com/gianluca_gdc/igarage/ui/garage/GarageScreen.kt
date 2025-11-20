@@ -61,13 +61,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.abs
 import kotlin.math.round
 
-private fun formatCommas(value: Int): String {
+fun formatCommas(value: Int): String {
     val s = value.toString()
     val withCommas = s.reversed().chunked(3).joinToString(",").reversed()
     return withCommas
 }
 
-private fun formatOneDecimal(value: Float): String {
+fun formatOneDecimal(value: Float): String {
     // round to 1 decimal without JVM String.format
     val rounded = round(value * 10f) / 10f
     val text = rounded.toString()
@@ -291,6 +291,7 @@ fun GarageScreenContent(
                 }
             }
         } else {
+            isVinBoxVisible = false
             if (!isVinBoxVisible) {
                 LazyColumn(
                     modifier = Modifier

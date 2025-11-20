@@ -15,40 +15,36 @@ class VehicleDetailScreenModel(
     private val maintenanceRepository: MaintenanceRepository,
     private val vehicleId: String
 ): StateScreenModel<VehicleDetailUiState>(VehicleDetailUiState()) {
-    init{
+    init {
 
-        screenModelScope.launch{
+        screenModelScope.launch {
             mutableState.update { it.copy(isLoading = true) }
-            val vehicle = try{vehicleRepository.getVehicleById(vehicleId)
-                }catch(e: Exception){
-                    mutableState.update{it.copy(isLoading = false,
-                        errorMessage = e.message ?: "Failed to grab vehicle")}
-                    return@launch
 
+            val vehicle = try {
+                vehicleRepository.getVehicleById(vehicleId)
+                    ?: throw IllegalStateException("Vehicle not found")
+            } catch (e: Exception) {
+                mutableState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message ?: "Failed to grab vehicle"
+                    )
                 }
-            val maintenanceTasks = try {
-                maintenanceRepository.getMaintenanceForVehicle(vehicleId)
-            }catch(e: Exception){
-                mutableState.update { it.copy(
-                    isLoading = false,
-                    errorMessage = e.message ?: "Failed to grab maintenance tasks") }
                 return@launch
             }
-            val health = try{
-                maintenanceRepository.getHealthForVehicle(vehicleId)
-            }catch(e: Exception){
-                mutableState.update { it.copy(
+
+            val maintenanceTasks = maintenanceRepository.getMaintenanceForVehicle(vehicleId)
+            val health = maintenanceRepository.getHealthForVehicle(vehicleId)
+
+            mutableState.update {
+                it.copy(
                     isLoading = false,
-                    errorMessage = e.message ?: "Failed to calc health status") }
-                return@launch
+                    vehicle = vehicle,
+                    maintenanceTasks = maintenanceTasks,
+                    healthStatus = health,
+                    errorMessage = null
+                )
             }
-            mutableState.update{it.copy(
-                isLoading = false,
-                vehicle = vehicle,
-                maintenanceTasks = maintenanceTasks,
-                healthStatus = health,
-                errorMessage = null,
-            )}
         }
     }
 }

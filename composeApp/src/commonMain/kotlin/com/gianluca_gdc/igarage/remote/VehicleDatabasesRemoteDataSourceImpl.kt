@@ -34,13 +34,13 @@ class VehicleDatabasesRemoteDataSourceImpl(
         currentMileage: Int?
     ): VehicleDbMarketValueDto {
         return client.get(
-            "$baseUrl/market-value/v2/$vin?mileage=$currentMileage"
+            "$baseUrl/advanced-vin-decode/v2/$vin"
         ) {
             header("x-AuthKey", apiKeyProvider())
         }.body()
     }
     // same idea for , decodeVin
-    override suspend fun decodeVin(vin: String): VehicleDbVinDecodeDto {
+    override suspend fun decodeVinWithMaintenance(vin: String): VehicleDbVinWithMaintenanceDto {
         return client.get("$baseUrl/vin-decode/$vin"){
             header("x-AuthKey", apiKeyProvider())
         }.body()

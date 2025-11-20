@@ -6,23 +6,13 @@ import com.gianluca_gdc.igarage.model.MaintenanceTask
 import com.gianluca_gdc.igarage.model.TaskCategory
 import com.gianluca_gdc.igarage.model.TaskStatus
 import com.gianluca_gdc.igarage.model.withStatus
-import com.gianluca_gdc.igarage.remote.VehicleDatabasesRemoteDataSource
-import com.gianluca_gdc.igarage.remote.toMaintenanceTasks
-import com.gianluca_gdc.igarage.repository.VehicleRepositoryImpl
 
-class MaintenanceRepositoryImpl(
-    private val vehicleRepository: VehicleRepository,
-    private val remote: VehicleDatabasesRemoteDataSource
-) : MaintenanceRepository {
+class MaintenanceRepositoryImpl : MaintenanceRepository {
+
+    private val tasksByVehicleId = mutableMapOf<String, List<MaintenanceTask>>()
+
     override suspend fun getMaintenanceForVehicle(vehicleId: String): List<MaintenanceTask> {
-        val vehicle = vehicleRepository.getVehicleById(vehicleId) ?: return emptyList()
-        val vin = vehicle.vin
-        val mileage = vehicle.mileage
-
-        val remoteDtos = remote.getMaintenanceByVin(vin, mileage)
-        val tasks = remoteDtos.toMaintenanceTasks(vehicleId)
-
-        return tasks.map { it.withStatus(mileage) }
+        return tasksByVehicleId[vehicleId] ?: emptyList()
     }
 
 
@@ -52,6 +42,13 @@ class MaintenanceRepositoryImpl(
             else -> HealthLevel.POOR
         }
         return HealthStatus(score,healthLevel,criticalOverdue,majorOverdue,minorOverdue,upcomingSoon)
+    }
+
+    override suspend fun cacheMaintenanceForVehicle(
+        vehicleId: String,
+        tasks: List<MaintenanceTask>
+    ) {
+        tasksByVehicleId[vehicleId] = tasks
     }
 
 }

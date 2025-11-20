@@ -12,7 +12,7 @@ interface VehicleDatabasesRemoteDataSource {
         currentMileage: Int?
     ): VehicleDbMarketValueDto
 
-    suspend fun decodeVin(
+    suspend fun decodeVinWithMaintenance(
         vin: String
-    ): VehicleDbVinDecodeDto
+    ): VehicleDbVinWithMaintenanceDto
 }

@@ -29,9 +29,9 @@ object ServiceLocator {
             apiKeyProvider = { apiKey },
             useSandbox = useSandbox
         )
+        maintenanceRepository = MaintenanceRepositoryImpl()
+        vehicleRepository = VehicleRepositoryImpl(remote,maintenanceRepository)
 
-        vehicleRepository = VehicleRepositoryImpl(remote)
-        maintenanceRepository = MaintenanceRepositoryImpl(vehicleRepository, remote)
 
         initialized = true
     }
