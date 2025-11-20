@@ -1,35 +1,77 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# iGarage 🚗📱
+*A Kotlin Multiplatform automotive companion app*
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+iGarage is a Kotlin Multiplatform (KMM) project built with **Compose Multiplatform**, designed to give car enthusiasts a clean, powerful way to track their vehicles, maintenance schedules, market values, and overall vehicle health — all in one garage.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
-
-### Build and Run Android Application
-
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
-
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+This project is structured for future **iOS support**, while the current development focuses on Android.
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## ✨ Features (In Progress)
+
+### ✅ Garage Overview
+- Add vehicles by VIN
+- Fetch vehicle metadata (make, model, year, trim)
+- Display image cards for each car
+- Show mileage, estimated market value, and 6-month price trends
+- API-backed image loading (Coil) with caching coming soon
+
+### 🚧 Vehicle Detail Screen (WIP)
+- Expanded vehicle information
+- Health scoring system
+- Upcoming / overdue maintenance preview
+- Navigation to full maintenance history
+- High-quality vehicle image display
+
+### 🔧 Maintenance Tracking
+- Pull manufacturer / condition-based maintenance schedules
+- Mark items as completed
+- Track next due intervals by mileage or date
+- Categorized tasks (Critical / Major / Minor)
+
+### 🔍 Parts Lookup (Planned)
+- VIN-based part search
+- Web-scraped pricing comparison
+- OEM-only filter
+- Review/rating aggregation
+
+---
+
+## 🏗️ Architecture
+
+iGarage uses a **clean, testable modular structure**:
+### 🔌 Tech Stack
+
+- **Kotlin Multiplatform**
+- **Compose Multiplatform**
+- **Voyager** for navigation
+- **Ktor** for networking
+- **Coil** for image loading
+- **VehicleDatabases.com API** (VIN decode, maintenance, market value)
+- **ServiceLocator** (manual DI)
+- **Coroutines** + StateScreenModel for state management
+
+---
+
+## 🚀 Getting Started
+
+### 1. Add your API key
+Create `local.properties`: your local api key here
+### 2. Build & run on Android
+Open in Android Studio → Run.
+
+iOS target will be added later.
+
+---
+
+## 📌 Status
+Actively in development.  
+Vehicle management + basic detail screen logic complete.  
+Maintenance + parts search next.
+
+---
+
+## 🛠️ Author
+**Gianluca Cutugno**  
+Computer Science @ SUNY New Paltz  
+GitHub: https://github.com/gianluca-gdc
