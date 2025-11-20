@@ -77,7 +77,7 @@ fun formatOneDecimal(value: Float): String {
         parts[0] + "." + frac.padEnd(1, '0').take(1)
     } else text + ".0"
 }
-@Preview(widthDp = 375, heightDp = 667)
+@Preview(widthDp = 411, heightDp = 891)
 @Composable
 fun GarageScreenPreview() {
     val sampleVehicle1 = Vehicle(

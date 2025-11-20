@@ -2,6 +2,7 @@ package com.gianluca_gdc.igarage.repository
 
 import com.gianluca_gdc.igarage.model.Vehicle
 import com.gianluca_gdc.igarage.model.VehicleWithMaintenance
+import com.gianluca_gdc.igarage.model.withStatus
 import com.gianluca_gdc.igarage.remote.VehicleDatabasesRemoteDataSource
 import com.gianluca_gdc.igarage.remote.toAverageMarketValue
 import com.gianluca_gdc.igarage.remote.toMaintenanceTasks
@@ -45,8 +46,11 @@ class VehicleRepositoryImpl(private val remote: VehicleDatabasesRemoteDataSource
         val dto = remote.decodeVinWithMaintenance(vin)
 
         val vehicle = dto.data.toVehicle(vin)                    // your existing VIN mapper
-        val tasks = dto.data.maintenance.toMaintenanceTasks(vehicle.id)  // your existing helper
-
+        val tasks = dto.data.maintenance.toMaintenanceTasks(vehicle.id) // your existing helper
+        tasks.forEach{
+            task ->
+            task.withStatus(vehicle.mileage)
+        }
         // Optionally: save vehicle + tasks into your in-memory list / DB here
 
         return VehicleWithMaintenance(vehicle, tasks)

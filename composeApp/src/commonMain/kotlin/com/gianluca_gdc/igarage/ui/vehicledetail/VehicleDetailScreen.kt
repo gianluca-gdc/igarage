@@ -18,11 +18,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.KeyboardBackspace
+import androidx.compose.material.icons.filled.PanTool
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -36,6 +44,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
@@ -58,10 +68,11 @@ import com.gianluca_gdc.igarage.model.TaskStatus
 import com.gianluca_gdc.igarage.model.Vehicle
 import com.gianluca_gdc.igarage.ui.garage.formatCommas
 import com.gianluca_gdc.igarage.ui.garage.formatOneDecimal
+import com.gianluca_gdc.igarage.ui.vehiclemaintenance.VehicleMaintenanceScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.abs
 
-@Preview(widthDp = 375, heightDp = 667)
+@Preview(widthDp = 411, heightDp = 891)
 @Composable
 fun vehicleDetailScreenPreview(){
     val sampleVehicle1 = Vehicle(
@@ -181,7 +192,28 @@ fun VehicleDetailScreenContent(
     var selectedTaskDescription by remember { mutableStateOf<MaintenanceTask?>(null) }
     Box(Modifier.fillMaxSize()) {
         Scaffold(
-            modifier = Modifier.swipeBack(onBack = { navigator?.pop() })
+            modifier = Modifier.swipeBack(onBack = { navigator?.pop() }),
+            floatingActionButton = {if(!state.isLoading && state.errorMessage == null){
+                Row(
+                    Modifier
+                        .padding(start = 30.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+
+                ) {
+                    FloatingActionButton(
+                        containerColor = Black,
+                        contentColor = White,
+                        onClick = { }
+                    ) {
+                            Icon(
+                                imageVector = Icons.Default.Build,
+                                contentDescription = "tool"
+                            )
+
+                    }
+                }
+            } }
 
         ) { innerPadding ->
             when {
@@ -225,7 +257,23 @@ fun VehicleDetailScreenContent(
                                 HealthCard(health)
                             }
                             item {
-                                MaintenanceCard(tasks,{task -> selectedTaskDescription = task})
+                                var dueSoonTasks = mutableListOf<MaintenanceTask>()
+                                var overdueTasks = mutableListOf<MaintenanceTask>()
+                                var okTasks = mutableListOf<MaintenanceTask>()
+                                tasks.forEach{task ->
+                                    if(task.status == TaskStatus.OVERDUE){
+                                        overdueTasks.add(task)
+                                    }else if(task.status == TaskStatus.DUE_SOON){
+                                        dueSoonTasks.add(task)
+                                    }else if(task.status == TaskStatus.OK &&
+                                        (( task.dueMileage!! >= vehicle!!.mileage!! - 10000)&&(task.dueMileage!! <= vehicle!!.mileage!! + 20000))){
+                                        okTasks.add(task)
+                                    }
+
+                                }
+                                val combinedTasks = overdueTasks + dueSoonTasks + okTasks
+
+                                MaintenanceCard(combinedTasks,{task -> selectedTaskDescription = task})
                             }
                         }
                     }

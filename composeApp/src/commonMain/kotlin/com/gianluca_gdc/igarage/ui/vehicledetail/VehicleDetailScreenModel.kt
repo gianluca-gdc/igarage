@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.StateScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.gianluca_gdc.igarage.model.MaintenanceTask
 import com.gianluca_gdc.igarage.model.Vehicle
+import com.gianluca_gdc.igarage.model.withStatus
 import com.gianluca_gdc.igarage.repository.MaintenanceRepository
 import com.gianluca_gdc.igarage.repository.VehicleRepository
 import com.gianluca_gdc.igarage.ui.garage.GarageUiState
